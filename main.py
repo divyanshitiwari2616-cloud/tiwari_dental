@@ -10,11 +10,17 @@ import schemas
 from database import engine, get_db
 
 
-# Create database tables
+# ---------------------------------
+# CREATE DATABASE TABLES
+# ---------------------------------
+
 models.Base.metadata.create_all(bind=engine)
 
 
-# Create FastAPI application
+# ---------------------------------
+# CREATE FASTAPI APP
+# ---------------------------------
+
 app = FastAPI(
     title="Tiwari Sai Dental API",
     description="Appointment Management System",
@@ -22,29 +28,29 @@ app = FastAPI(
 )
 
 
-# -----------------------------
-# SERVE STATIC FILES
-# -----------------------------
+# ---------------------------------
+# SERVE CSS AND JAVASCRIPT FILES
+# ---------------------------------
 
 app.mount(
     "/static",
-    StaticFiles(directory="static"),
+    StaticFiles(directory="."),
     name="static"
 )
 
 
-# -----------------------------
+# ---------------------------------
 # HOME PAGE
-# -----------------------------
+# ---------------------------------
 
 @app.get("/")
 def home():
-    return FileResponse("static/index.html")
+    return FileResponse("index.html")
 
 
-# -----------------------------
+# ---------------------------------
 # CREATE APPOINTMENT
-# -----------------------------
+# ---------------------------------
 
 @app.post(
     "/appointments",
@@ -70,9 +76,9 @@ def create_appointment(
     return new_appointment
 
 
-# -----------------------------
+# ---------------------------------
 # GET ALL APPOINTMENTS
-# -----------------------------
+# ---------------------------------
 
 @app.get(
     "/appointments",
@@ -91,9 +97,9 @@ def get_appointments(
     return appointments
 
 
-# -----------------------------
+# ---------------------------------
 # UPDATE APPOINTMENT STATUS
-# -----------------------------
+# ---------------------------------
 
 @app.put(
     "/appointments/{appointment_id}/status",
@@ -125,9 +131,9 @@ def update_status(
     return appointment
 
 
-# -----------------------------
+# ---------------------------------
 # DELETE APPOINTMENT
-# -----------------------------
+# ---------------------------------
 
 @app.delete("/appointments/{appointment_id}")
 def delete_appointment(
